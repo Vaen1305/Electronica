@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AlarmController : MonoBehaviour
 {
+    /*
     public void ActivateAlarm()
     {
         Debug.Log("¡Alarma Activada! Persona sospechosa detectada.");
@@ -17,4 +18,5 @@ public class AlarmController : MonoBehaviour
         // Aquí iria el código para controlar el hardware de Arduino para desactivar la alarma.
 
     }
+    */
 }

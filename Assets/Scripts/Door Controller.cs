@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DoorController : MonoBehaviour
 {
+    /*
     public void OpenDoor()
     {
         Debug.Log("La puerta está abierta, el visitante puede entrar.");
@@ -16,4 +17,5 @@ public class DoorController : MonoBehaviour
         Debug.Log("La puerta se cierra.");
         // Aquí iria el código para controlar el hardware de Arduino para cerrar la puerta
     }
+    */
 }

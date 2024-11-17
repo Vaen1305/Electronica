@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public GameObject[] visitors;
+
+    /*
     public DisplayController displayController;
     public LedController ledController;
     public DoorController doorController;
@@ -40,4 +43,5 @@ public class GameManager : MonoBehaviour
     {
         OnCardScanned?.Invoke(name, lastName, role, isResident);
     }
+    */
 }

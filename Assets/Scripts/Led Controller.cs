@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LedController : MonoBehaviour
 {
+    /*
     public void TurnOnGreenLED()
     {
         Debug.Log("LED Verde: Vecino Aproximándose");
@@ -19,4 +20,5 @@ public class LedController : MonoBehaviour
         Debug.Log("LED Apagado");
         // Aqui iri el codigo para controlar el hardware de Arduino
     }
+    */
 }
