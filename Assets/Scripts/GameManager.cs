@@ -1,47 +1,90 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject[] visitors;
+    public TMP_Text timerText; // Texto para mostrar el tiempo restante
+    public float gameDuration = 300f; // 5 minutos en segundos
+    private float remainingTime;
 
-    /*
-    public DisplayController displayController;
-    public LedController ledController;
-    public DoorController doorController;
-    public AlarmController alarmController;
+    public static event Action OnGameOver;
 
-    public event Action<string, string, string, bool> OnCardScanned;
 
-    private void Start()
+    public GameObject visitorData;
+
+    public Visitor[] visitors; // Lista de visitantes predefinidos
+    private Visitor currentVisitor;
+
+    private void OnEnable()
     {
-        OnCardScanned += HandleCardScan;
+        OnGameOver += EndGame;
+        MyMessageListener.OnHC_SR04DataReceived += HandleDistanceData;
+    }
+    private void OnDisable()
+    {
+        OnGameOver -= EndGame;
+        MyMessageListener.OnHC_SR04DataReceived -= HandleDistanceData;
+    }
+    void Start()
+    {
+        remainingTime = gameDuration;
+        SpawnRandomVisitor();
     }
 
-    // Método que se llama cuando se escanea una tarjeta RFID
-    private void HandleCardScan(string name, string lastName, string role, bool isResident)
+    void Update()
     {
-        displayController.ShowVisitorInfo(name, lastName, role);
-        displayController.ShowResidentStatus(isResident);
-
-        if (isResident)
+        if (remainingTime > 0)
         {
-            ledController.TurnOnGreenLED();
-            doorController.OpenDoor();
+            remainingTime -= Time.deltaTime;
+            UpdateTimerUI();
         }
         else
         {
-            ledController.TurnOnRedLED();
-            alarmController.ActivateAlarm();
+            OnGameOver?.Invoke();
         }
     }
 
-    // Método para simular que pasamos la tarjeta
-    public void ScanCard(string name, string lastName, string role, bool isResident)
+    void UpdateTimerUI()
     {
-        OnCardScanned?.Invoke(name, lastName, role, isResident);
+        int minutes = Mathf.FloorToInt(remainingTime / 60f);
+        int seconds = Mathf.FloorToInt(remainingTime % 60f);
+        timerText.text = $"{minutes:00}:{seconds:00}";
     }
-    */
+
+    void EndGame()
+    {
+        OnGameOver?.Invoke();
+        Debug.Log("El juego ha terminado.");
+    }
+
+    void HandleDistanceData(bool detected, float distance)
+    {
+        if (detected && distance >= 5f && distance <= 15f)
+        {
+            Debug.Log($"Distancia dentro del umbral: {distance}");
+            ShowVisitorData();
+        }
+        else
+        {
+            Debug.Log($"Distancia fuera del umbral: {distance}");
+        }
+    }
+    void ShowVisitorData()
+    {
+        visitorData.SetActive(true);
+    }
+
+    void SpawnRandomVisitor()
+    {
+        if (visitors.Length == 0)
+        {
+            Debug.LogError("No hay visitantes definidos.");
+            return;
+        }
+        int randomIndex = UnityEngine.Random.Range(0, visitors.Length);
+        currentVisitor = visitors[randomIndex];
+        Debug.Log($"Visitante actual: {currentVisitor}");
+        // Aquí puedes mostrar la información del visitante en la UI
+    }
 }
