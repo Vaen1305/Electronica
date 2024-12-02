@@ -64,10 +64,10 @@ public class MyMessageListener : MonoBehaviour
             bool state = msg.EndsWith("true");
             OnButtonStateChanged?.Invoke(button, state);
         }
-        else if (msg.StartsWith("Pot:"))
+        if (msg.StartsWith("Pot:"))
         {
-            // Procesar datos del potenciómetro
             int value = int.Parse(msg.Substring(4));
+            Debug.Log($"Valor del potenciómetro: {value}");
             OnPotentiometerChanged?.Invoke(value);
         }
         else if (msg.StartsWith("Gyro:"))
@@ -84,4 +84,6 @@ public class MyMessageListener : MonoBehaviour
     {
         Debug.Log(success ? "Device connected" : "Device disconnected");
     }
+
+
 }
